@@ -1,0 +1,14 @@
+def knapsack(W, wt, val, n):
+	if n == 0 or W == 0:
+		return 0
+	if(wt[n-1] > w):
+		return knapsack(W, wt, val, n-1)
+	else:
+		return max(val[n-1] + knapsack(W-wt[n-1], wt, val, n-1), knapsack(W, wt, val, n-1))
+		
+values = [3, 5, 6, 3, 4, 4]
+weights = [35, 55, 60, 30, 40, 40]
+capacity = 61
+n = len(values)
+print(str(knapsack(capacity, weights, values, n)))
+		
