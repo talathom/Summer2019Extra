@@ -1,0 +1,24 @@
+Ravagers 83 88
+Red Phoenix 89 92
+Iron 80 86
+Thunderbolts 83 80
+Shamrocks 84 88
+Bulldogs 89 80
+Monarchs 85 85
+White Tigers 81 78
+Cyborgs 84 90
+Invaders 87 88
+Emperors 82 94
+Astronauts 80 88
+Stallions 88 91
+Commanders 82 82
+Apollos 96 75
+Smackers 69 60
+Dragons 75 65
+Knights 97 77
+Samurai 91 75
+Gryphons 77 75
+Wyverns 72 71
+Bandits 92 85
+Diablos 76 60
+Giants 77 67

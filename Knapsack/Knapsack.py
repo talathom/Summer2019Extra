@@ -8,7 +8,6 @@ def knapsack(capacity, weights, values, n):
 		
 values = [3, 5, 6, 3, 4, 4]
 weights = [35, 55, 60, 30, 40, 40]
-capacity = 61
+capacity = 121
 n = len(values)
 print(str(knapsack(capacity, weights, values, n)))
-		
