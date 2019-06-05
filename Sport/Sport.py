@@ -3,12 +3,17 @@ import challonge
 import asyncio
 import Game
 import Team
-import Playoffs
 from challonge.tournament import TournamentType
 
 async def regularSeason(teams):
+    return await tournament(teams, "2243 Preseason 8", "2243h", TournamentType.round_robin)
+
+async def playoffs(teams):
+    return await tournament(teams, "2243 Preseason 8A", "2243ha")
+
+async def tournament(teams, tName, tURL, tType=TournamentType.single_elimination):
     chal = await challonge.get_user('Kcin14', 'M2ZyNWHKoTJJjkwdg6JCrxyljE3HoeDH0AZdD8oa')
-    t = await chal.create_tournament("2243 Preseason 6", "2243f", TournamentType.round_robin)
+    t = await chal.create_tournament(tName, tURL, tType)
     participants = list()
     for team in teams:
         participants.append(await t.add_participant(team.name))
@@ -52,8 +57,10 @@ def offSeason(teams):
             team.setOffense(team.getOffense() + random.randint(-5, 10))
         elif team.getOffense() < 90:
             team.setOffense(team.getOffense() + random.randint(-5, 5))
-        else:
+        elif team.getOffense() < 100:
             team.setOffense(team.getOffense() + random.randint(-10, 5))
+        else:
+            team.setOffense(team.getOffense() + random.randint(-10, 0))
 
         if team.getDefense() < 70:
             team.setDefense(team.getDefense() + random.randint(0, 10))
@@ -61,13 +68,16 @@ def offSeason(teams):
             team.setOffense(team.getDefense() + random.randint(-5, 10))
         elif team.getDefense() < 90:
             team.setDefense(team.getDefense() + random.randint(-5, 5))
-        else:
+        elif team.getDefense() < 100:
             team.setDefense(team.getDefense() + random.randint(-10, 5))
+        else:
+            team.setDefense(team.getDefense() + random.randint(-10, 0))
 
-
-year = "Teams.txt"
+year = 2242
+fileOut = str(year+1) + ".txt"
+fileIn = "Teams.txt"
 teams = list()
-startFile = open(year, 'r')
+startFile = open(fileIn, 'r')
 for line in startFile:
     arr = line.split()
     if len(arr) == 3:
@@ -96,35 +106,9 @@ for pair in rankings.values():
                     playoffTeams.append(team)
                 counter += 1
                 break
-p = Playoffs.Playoffs(playoffTeams)
-playoffRankings = loop.run_until_complete(p.tournament())
 
-
-'''
-for i in range(0, len(teams)):
-    for j in range(i+1, len(teams)):
-        g = Game(teams[i], teams[j])
-        g.playGame()
-
-for i in range(0, len(teams)):
-    for j in range(0, len(teams)-i-1):
-        if teams[j] > teams[j+1]:
-            teams[j], teams[j + 1] = teams[j + 1], teams[j]
-
-teams = list(reversed(teams))
-
-print("")
-for i in range(0, len(teams)):
-    print(teams[i].getName() +": "+ teams[i].getRecord())
-
-
-print("")
-p = Playoffs(teams[0], teams[1], teams[2], teams[3], teams[4], teams[5], teams[6], teams[7])
-loop = asyncio.new_event_loop()
-asyncio.set_event_loop(loop)
-champion = loop.run_until_complete(p.tournament())
-print("THE " + champion + " ARE WORLD CHAMPIONS!")
-'''
-
-
-
+loop.run_until_complete(playoffs(playoffTeams))
+output = open(fileOut, 'w')
+for team in teams:
+    output.write(team.name + " " + str(team.getOffense()) + " " + str(team.getDefense()) + "\n")
+output.close()

@@ -1,5 +1,4 @@
 import random
-import Team
 
 class Game:
     def __init__(self, home, away):
@@ -38,8 +37,8 @@ class Game:
         toGo = 10
         while down < 5:
             #print("The "+ offense.getName() +" have the ball, "+ str(down) + " and "+ str(toGo) +" on the "+ str(yard))
-            offenseRoll = random.randint(1, 100) + offense.getOffense()
-            defenseRoll = random.randint(1, 100) + defense.getDefense()
+            offenseRoll = random.randint(1, 300) + offense.getOffense()
+            defenseRoll = random.randint(1, 300) + defense.getDefense()
 
             if offenseRoll > defenseRoll-inning:
                 deviation = random.randint(1, 100)
@@ -78,7 +77,7 @@ class Game:
                     down += 1
 
     def playGame(self):
-        for inning in range(0, 9):
+        for inning in range(0, 8):
             self.drive(self.home, self.away, True, inning)
             self.drive(self.away, self.home, False, inning)
 
